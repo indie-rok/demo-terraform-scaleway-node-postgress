@@ -1,0 +1,23 @@
+#cloud-config
+
+# Install Packages
+packages:
+  - nodejs
+  - npm
+
+# Run other commands
+runcmd:
+  - git clone https://github.com/indie-rok/test-express
+  - cd test-express
+  - npm i
+  - touch .env
+  - echo PGHOST=\"${PGHOST}\" >> .env
+  - echo PGPORT=\"${PGPORT}\" >> .env
+  - echo PGDATABASE=\"${PGDATABASE}\" >> .env
+  - echo PGUSER=\"${PGUSER}\" >> .env
+  - echo PGPASSWORD=\"${PGPASSWORD}\" >> .env
+  - node seed.js
+  - node index.js
+
+# Log more than usual
+output: {all: '| tee -a /var/log/cloud-init-output.log'}
